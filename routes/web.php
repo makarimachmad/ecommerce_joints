@@ -14,19 +14,31 @@ use Illuminate\Support\Facades\Route;
 */
 
 //admin
-Route::get('/admin','AdminController@index');
-Route::get('/admin/create','AdminController@create');
-Route::get('/admin/edit/{{admin}}','AdminController@edit');
-Route::get('/admin/destroy/{{admin}}','AdminController@destroy');
-Route::get('/admin/update/','AdminController@update');
-Route::post('/admin','AdminController@store');
+// Route::get('/admin','AdminController@index');
+// Route::get('/admin/create','AdminController@create');
+// Route::delete('/admin/destroy/{admin}','AdminController@destroy');
+// Route::get('/admin/edit/{admin}','AdminController@edit');
+// Route::patch('/admin/update/{admin}','AdminController@update');
+// Route::post('/admin/proses','AdminController@store');
 
+
+
+Route::get('/{any}','BerandasController@index')->where('any','.*');
+// Route::get('/kemeja','KategoriController@kemeja');
+// Route::get('/bmuslim','KategoriController@bmuslim');
+// Route::get('/jaket','KategoriController@jaket');
+// Route::get('/kaos','KategoriController@kaos');
+//pelanggan vue
+//Route::get('/','BerandasController@get');
+//Route::get('/datapelanggan','BerandasController@index');
+// Route::get('/{any}', function(){
+//     return view('cobaberanda');
+// })->where('any','.*');
 
 //pelanggan
-Route::get('/','BerandasController@index');
-Route::get('/{beranda}','BerandasController@show');//selengkapnya
-Route::get('/kemeja','KemejaController@index');
+
 //Route::get('/kemeja/{kemeja}','KemejaController@index');
-Route::get('/bmuslim','BMuslimController@index');
-Route::get('/jaket','JaketController@index');
-Route::get('/kaos','KaosController@index');
+// Route::get('/{beranda}','BerandasController@show');
+// Route::post('/registrasi','DaftarController@store');
+
+Auth::routes();

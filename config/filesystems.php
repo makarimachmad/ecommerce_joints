@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => env('FILESYSTEM_DRIVER', 's3'),
 
     /*
     |--------------------------------------------------------------------------
@@ -63,6 +63,14 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
+        ],
+
+        'google' => [
+            'driver' => 'google',
+            'clientId' => env("GOOGLE_CLIENT_ID"),
+            'clientSecret' => env("GOOGLE_CLIENT_SECRET"),
+            'refreshToken' => env("GOOGLE_REFRESH_TOKEN"),
+            'folderId' => env("GOOGLE_DRIVE_FOLDER_ID"),
         ],
 
     ],

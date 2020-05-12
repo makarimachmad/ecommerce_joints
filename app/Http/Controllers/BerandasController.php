@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Beranda;
+use App\Event\PencarianEvent;
 use Illuminate\Http\Request;
 
 class BerandasController extends Controller
@@ -14,10 +15,43 @@ class BerandasController extends Controller
      */
     public function index()
     {
-        //
+        //return view('beranda',['data' => $data]);
+        return view('cobaberanda');
+        
+        //$data = Beranda::all();
+        // return response([
+        //     'success' => true,
+        //     'message' => 'mantap jiwa berhasil ambil data db',
+        //     'data' => $data
+        // ],200);
+
+        // return response()->json([
+        //     'pakaian' => Beranda::latest()->get()
+        // ], Response::HTTP_OK);
+    }
+    public function get(){
+        //return view('beranda',['data' => $data]);
+        
+        //API
+        // $data = Beranda::orderBy('id','DESC')->pagination(2);
         $data = Beranda::all();
-        //dump($semua);
-        return view('beranda',['data' => $data]);
+        return response([
+            'success' => true,
+            'message' => 'mantap jiwa berhasil ambil data db',
+            'data' => $data
+        ],200);
+    }
+    public function getpagging(){
+        //return view('beranda',['data' => $data]);
+        
+        //API
+        // $data = Beranda::orderBy('id','DESC')->pagination(2);
+        $data = Beranda::orderBy('id','DESC')->pagination(3);
+        return response([
+            'success' => true,
+            'message' => 'mantap jiwa berhasil ambil data db',
+            'data' => $data
+        ],200);
     }
 
     /**
@@ -49,13 +83,14 @@ class BerandasController extends Controller
      */
     public function show(Beranda $beranda)
     {
-        //
         
-        //return $beranda;
-        return view('selengkapnya',['isi'=>$beranda]);
-        //$bantu = (int)$id;
-        //$isi = Beranda::where('id',$id)->get();
-        //return view('selengkapnya',['isi'=>$isi]);
+        //return view('selengkapnya',['isi'=>$beranda]);
+        return response([
+            'success' => true,
+            'message' => 'selengkapnya mantap jiwa',
+            'data' => $beranda
+        ],200);
+        
     }
 
     /**
@@ -92,4 +127,22 @@ class BerandasController extends Controller
     {
         //
     }
+
+    public function cari(Reuest $request)
+    {
+        $query = $request->query('query');
+        $data = Beranda::where('nama','LIKE','%'.$query.'%')
+            ->orWhere('kategori','LIKE','%'.$query.'%')
+            ->get();
+
+        event(new PencarianEvent($data));
+        
+        return response([
+            'success' => true,
+            'message' => 'mantap jiwa berhasil ambil data db',
+            'data' => $data
+        ],200);
+    }
+
+
 }

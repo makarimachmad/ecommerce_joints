@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Daftar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DaftarController extends Controller
 {
@@ -35,7 +36,48 @@ class DaftarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name'     => 'required',
+            'email'   => 'required',
+            'password' => 'required',
+        ],
+            [
+                'name.required' => 'Masukkan nama Post !',
+                'email.required' => 'Masukkan email Post !',
+                'password.required' => 'Masukkan sandi Post !',
+            ]
+        );
+
+        if($validator->fails()) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Silahkan Isi Bidang Yang Kosong',
+                'data'    => $validator->errors()
+            ],400);
+
+        } else {
+
+            $post = Daftar::create([
+                'name'     => $request->input('name'),
+                'email'   => $request->input('email'),
+                'password'   => $request->input('password'),
+         
+            ]);
+
+
+            if ($post) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Berhasil daftar',
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal daftar',
+                ], 400);
+            }
+        }
     }
 
     /**
